@@ -1,0 +1,8 @@
+(clear)
+(unwatch all)
+(load "sudoku.clp")
+(load "solve.clp")
+(load "output-frills.clp")
+(load "tc2.clp")
+(reset)
+(run)
