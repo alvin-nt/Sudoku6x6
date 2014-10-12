@@ -13,6 +13,48 @@ public class ClipsInterface {
 	private static final List<String> diagonal1 = Arrays.asList("A1", "B2", "C3", "D4", "E5", "F6");
 	private static final List<String> diagonal2 = Arrays.asList("A6", "B5", "C4", "D3", "E2", "F1");
 	
+	private static int id1 = 1;
+	private static int id2 = 7;
+	private static int id3 = 13;
+	private static int id4 = 19;
+	private static int id5 = 25;
+	private static int id6 = 31;
+	
+	private static int getId(int group) {
+		int ret = -1;
+		switch(group) {
+		case 1:
+			ret = id1++;
+			break;
+		case 2:
+			ret = id2++;
+			break;
+		case 3:
+			ret = id3++;
+			break;
+		case 4:
+			ret = id4++;
+			break;
+		case 5:
+			ret = id5++;
+			break;
+		case 6:
+			ret = id6++;
+			break;
+		}
+		
+		return ret;
+	}
+	
+	public static void resetId() {
+		id1 = 1;
+		id2 = 7;
+		id3 = 13;
+		id4 = 19;
+		id5 = 25;
+		id6 = 31;
+	}
+	
 	private Environment env;
 	
 	private ClipsInterface() {
@@ -82,11 +124,18 @@ public class ClipsInterface {
 		assert(sudokuData != null);
 		assert(sudokuData.size() == 36);
 		
-		env.reset();
-		env.assertString("(phase expand-any)");
-		env.assertString("(size 3)");
+		resetId();
+		env.getInputBuffer();
 		
-		int idCount = 1;
+		// build the rule
+		StringBuilder evalStr = new StringBuilder();
+		
+		evalStr.append("(defrule grid-values").append(System.lineSeparator());
+		evalStr.append("?f <- (phase grid-values) =>").append(System.lineSeparator());
+		evalStr.append("(retract ?f)").append(System.lineSeparator());
+		evalStr.append("(assert (phase expand-any))").append(System.lineSeparator());
+		evalStr.append("(assert (size 3))").append(System.lineSeparator());
+		
 		for(char row = 'A'; row <= 'F'; row++) {
 			for(int col = 1; col <= 6; col++) {
 				StringBuilder assertStr = new StringBuilder();
@@ -107,15 +156,24 @@ public class ClipsInterface {
 				}
 				
 				// group, diagonal, and idCount
-				assertStr.append("(group ").append(getGroup(id)).append(") ");
+				int group = getGroup(id);
+				assertStr.append("(group ").append(group).append(") ");
 				assertStr.append("(diagonal ").append(diagonal(id)).append(") ");
-				assertStr.append("(id ").append(idCount++).append("))");
+				assertStr.append("(id ").append(getId(group)).append("))");
 				
-				System.out.println(assertStr.toString());
-				env.assertString(assertStr.toString());
+				System.out.println("[DEBUG] Assertion string: " + assertStr.toString());
+				evalStr.append("(assert ").append(assertStr.toString()).append(')').append(System.lineSeparator());
 			}
 		}
+		evalStr.append(")");
 		
+		//System.out.println("[DEBUG] Evaluation String output: ");
+		//System.out.println(evalStr.toString());
+		
+		// build the rule
+		env.build(evalStr.toString());
+		
+		env.reset();
 		env.run();
 		
 		return getResult();
@@ -140,7 +198,9 @@ public class ClipsInterface {
 		for(char row = 'A'; row <= 'F'; row++) {
 			for(int col = 1; col <= 6; col++) {
 				String evalStr = String.format(formatStr, (int)(row - 64), col);
-				System.out.println(evalStr);
+				
+				//System.out.println("[DEBUG] Evaluation string:");
+				//System.out.println(evalStr);
 				
 				PrimitiveValue pv = env.eval(evalStr);
 				
@@ -149,20 +209,20 @@ public class ClipsInterface {
 				// get the value
 				PrimitiveValue fv = pv.get(0);
 				String val = fv.getFactSlot("value").toString();
-				assert(!Utils.isNullOrEmpty(val));
-				System.out.println("" + row + col + ": " + val);
+				
+				//assert(!Utils.isNullOrEmpty(val));
 				
 				Integer cellValue = null;
 				if(Utils.isNumeric(val)) {
 					cellValue = Integer.parseInt(val);
-				} else if(val.equals("*")) {
+				} else if(val.equals("any")) {
 					cellValue = null;
 				} else {
 					throw new Exception("Detected invalid value for cell: " + val);
 				}
 				
 				result.put("" + row + col, cellValue);
-				
+				System.out.println("[DEBUG] " + row + col + ": " + result.get("" + row + col));
 			}
 		}
 		assert(result.size() == 36);
@@ -206,7 +266,7 @@ public class ClipsInterface {
 		return count;
 	}
 	
-	private int diagonal(String id) {
+	public static int diagonal(String id) {
 		int ret;
 		if(diagonal1.contains(id)) {
 			ret = 1;
@@ -237,3 +297,4 @@ public class ClipsInterface {
 		return false;
 	}
 }
+

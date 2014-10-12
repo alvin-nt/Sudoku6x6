@@ -20,58 +20,21 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
-import javax.swing.JTextField;
-
 import java.awt.Color;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+
+
 
 public class Main {
 
 	private JFrame frmMiniSudokux;
-	private JTextField A1;
-	private JTextField A2;
-	private JTextField A3;
-	private JTextField A4;
-	private JTextField A5;
-	private JTextField B1;
-	private JTextField C1;
-	private JTextField D1;
-	private JTextField E1;
-	private JTextField A6;
-	private JTextField F1;
-	private JTextField B2;
-	private JTextField B3;
-	private JTextField B4;
-	private JTextField B5;
-	private JTextField B6;
-	private JTextField C2;
-	private JTextField C3;
-	private JTextField C4;
-	private JTextField C5;
-	private JTextField C6;
-	private JTextField D2;
-	private JTextField D3;
-	private JTextField D4;
-	private JTextField D5;
-	private JTextField D6;
-	private JTextField E2;
-	private JTextField E3;
-	private JTextField E4;
-	private JTextField E5;
-	private JTextField E6;
-	private JTextField F2;
-	private JTextField F3;
-	private JTextField F4;
-	private JTextField F5;
-	private JTextField F6;
 	private JButton btnReset;
 
 	private ClipsInterface clips = ClipsInterface.getInstance();
 	
 	private HashMap<String, Integer> sudokuData = new HashMap<>();
-	private List<JTextField> cellList;
+	private ArrayList<SudokuCell> cells;
 	
 	/**
 	 * Launch the application.
@@ -118,161 +81,23 @@ public class Main {
 		frmMiniSudokux.getContentPane().add(panelSudoku, BorderLayout.CENTER);
 		panelSudoku.setLayout(new MigLayout("", "[grow][grow][grow][grow][grow][grow]", "[][][][][][][][][][][]"));
 		
-		A1 = new SudokuCell("A1");
-		A1.setBackground(Color.LIGHT_GRAY);
-		panelSudoku.add(A1, "cell 0 0,growx");
-		A1.setColumns(10);
-		
-		A2 = new SudokuCell("A2");
-		panelSudoku.add(A2, "cell 1 0,growx");
-		A2.setColumns(10);
-		
-		A3 = new SudokuCell("A3");
-		panelSudoku.add(A3, "cell 2 0,growx");
-		A3.setColumns(10);
-		
-		A4 = new SudokuCell("A4");
-		panelSudoku.add(A4, "cell 3 0,growx");
-		A4.setColumns(10);
-		
-		A5 = new SudokuCell("A5");
-		panelSudoku.add(A5, "cell 4 0,growx");
-		A5.setColumns(10);
-		
-		A6 = new SudokuCell("A6");
-		A6.setBackground(Color.LIGHT_GRAY);
-		panelSudoku.add(A6, "cell 5 0,growx");
-		A6.setColumns(10);
-		
-		B1 = new SudokuCell("B1");
-		panelSudoku.add(B1, "cell 0 2,growx");
-		B1.setColumns(10);
-		
-		B2 = new SudokuCell("B2");
-		B2.setBackground(Color.LIGHT_GRAY);
-		panelSudoku.add(B2, "cell 1 2,growx");
-		B2.setColumns(10);
-		
-		B3 = new SudokuCell("B3");
-		panelSudoku.add(B3, "cell 2 2,growx");
-		B3.setColumns(10);
-		
-		B4 = new SudokuCell("B4");
-		panelSudoku.add(B4, "cell 3 2,growx");
-		B4.setColumns(10);
-		
-		B5 = new SudokuCell("B5");
-		B5.setBackground(Color.LIGHT_GRAY);
-		panelSudoku.add(B5, "cell 4 2,growx");
-		B5.setColumns(10);
-		
-		B6 = new SudokuCell("B6");
-		panelSudoku.add(B6, "cell 5 2,growx");
-		B6.setColumns(10);
-		
-		C1 = new SudokuCell("C1");
-		panelSudoku.add(C1, "cell 0 4,growx");
-		C1.setColumns(10);
-		
-		C2 = new SudokuCell("C2");
-		panelSudoku.add(C2, "cell 1 4,growx");
-		C2.setColumns(10);
-		
-		C3 = new SudokuCell("C3");
-		C3.setBackground(Color.LIGHT_GRAY);
-		panelSudoku.add(C3, "cell 2 4,growx");
-		C3.setColumns(10);
-		
-		C4 = new SudokuCell("C4");
-		C4.setBackground(Color.LIGHT_GRAY);
-		panelSudoku.add(C4, "cell 3 4,growx");
-		C4.setColumns(10);
-		
-		C5 = new SudokuCell("C5");
-		panelSudoku.add(C5, "cell 4 4,growx");
-		C5.setColumns(10);
-		
-		C6 = new SudokuCell("C6");
-		panelSudoku.add(C6, "cell 5 4,growx");
-		C6.setColumns(10);
-		
-		D1 = new SudokuCell("D1");
-		panelSudoku.add(D1, "cell 0 6,growx");
-		D1.setColumns(10);
-		
-		D2 = new SudokuCell("D2");
-		panelSudoku.add(D2, "cell 1 6,growx");
-		D2.setColumns(10);
-		
-		D3 = new SudokuCell("D3");
-		D3.setBackground(Color.LIGHT_GRAY);
-		panelSudoku.add(D3, "cell 2 6,growx");
-		D3.setColumns(10);
-		
-		D4 = new SudokuCell("D4");
-		D4.setBackground(Color.LIGHT_GRAY);
-		panelSudoku.add(D4, "cell 3 6,growx");
-		D4.setColumns(10);
-		
-		D5 = new SudokuCell("D5");
-		panelSudoku.add(D5, "cell 4 6,growx");
-		D5.setColumns(10);
-		
-		D6 = new SudokuCell("D6");
-		panelSudoku.add(D6, "cell 5 6,growx");
-		D6.setColumns(10);
-		
-		E1 = new SudokuCell("E1");
-		panelSudoku.add(E1, "cell 0 8,growx");
-		E1.setColumns(10);
-		
-		E2 = new SudokuCell("E2");
-		E2.setBackground(Color.LIGHT_GRAY);
-		panelSudoku.add(E2, "cell 1 8,growx");
-		E2.setColumns(10);
-		
-		E3 = new SudokuCell("E3");
-		panelSudoku.add(E3, "cell 2 8,growx");
-		E3.setColumns(10);
-		
-		E4 = new SudokuCell("E4");
-		panelSudoku.add(E4, "cell 3 8,growx");
-		E4.setColumns(10);
-		
-		E5 = new SudokuCell("E5");
-		E5.setBackground(Color.LIGHT_GRAY);
-		panelSudoku.add(E5, "cell 4 8,growx");
-		E5.setColumns(10);
-		
-		E6 = new SudokuCell("E6");
-		panelSudoku.add(E6, "cell 5 8,growx");
-		E6.setColumns(10);
-		
-		F1 = new SudokuCell("F1");
-		F1.setBackground(Color.LIGHT_GRAY);
-		panelSudoku.add(F1, "cell 0 10,growx");
-		F1.setColumns(10);
-		
-		F2 = new SudokuCell("F2");
-		panelSudoku.add(F2, "cell 1 10,growx");
-		F2.setColumns(10);
-		
-		F3 = new SudokuCell("F3");
-		panelSudoku.add(F3, "cell 2 10,growx");
-		F3.setColumns(10);
-		
-		F4 = new SudokuCell("F4");
-		panelSudoku.add(F4, "cell 3 10,growx");
-		F4.setColumns(10);
-		
-		F5 = new SudokuCell("F5");
-		panelSudoku.add(F5, "cell 4 10,growx");
-		F5.setColumns(10);
-		
-		F6 = new SudokuCell("F6");
-		F6.setBackground(Color.LIGHT_GRAY);
-		panelSudoku.add(F6, "cell 5 10,growx");
-		F6.setColumns(10);
+		// generate the cells
+		cells = new ArrayList<>();
+		for(int i = 0; i < 36; i++) {
+			String id = getId(i);
+			cells.add(new SudokuCell(id));
+			
+			SudokuCell cell = cells.get(i);
+			if(ClipsInterface.diagonal(cell.getId()) > 0) {
+				cell.setBackground(Color.LIGHT_GRAY);
+			}
+			
+			int col = (int)(id.charAt(1) - 48);
+			int row = (int)(id.charAt(0) - 64);
+			
+			panelSudoku.add(cell, "cell " + (col - 1) + " " + ((row-1)*2) + ",growx");
+			cell.setColumns(10);
+		}
 		
 		JPanel panelButton = new JPanel();
 		frmMiniSudokux.getContentPane().add(panelButton, BorderLayout.EAST);
@@ -288,6 +113,7 @@ public class Main {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					solve();
+					refreshCells();
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(Main.this.frmMiniSudokux, "Caught Exception: " + e.getMessage(), "CLIPS Error", JOptionPane.ERROR_MESSAGE);
 				}
@@ -346,41 +172,47 @@ public class Main {
 		gbc_btnExit.gridy = 5;
 		panelButton.add(btnExit, gbc_btnExit);
 		
-		cellList = Arrays.asList(A1, A2, A3, A4, A5, A6, B1, B2, B3, B4, B5, B6, C1, C2, C3, C4, C5, C6,
-								D1, D2, D3, D4, D5, D6, E1, E2, E3, E4, E5, E6, F1, F2, F3, F4, F5, F6);
 	}
 
 	private void solve() throws Exception {
 		sudokuData.clear();
-		for(int i = 0; i < cellList.size(); i++) {
-			SudokuCell cell = (SudokuCell) cellList.get(i);
-			if(Utils.isNumeric(cell.getText())) {
-				sudokuData.put(cell.getId(), Integer.parseInt(cell.getText()));
-			} else {
-				sudokuData.put(cell.getId(), null);
-			}
-		}
 		
 		if(clips.isLoaded()) {
-			sudokuData.clear();
 			sudokuData = clips.solve();
 		} else {
+			for(SudokuCell cell : cells) {
+				String text = cell.getText();
+				
+				System.out.println("[DEBUG] Loading cell " + cell.getId() + ": " + text);
+				
+				if(Utils.isNullOrEmpty(text)) {
+					throw new Exception("Empty text on " + cell.getId());
+				} else {
+					if(Utils.isNumeric(text)) {
+						sudokuData.put(cell.getId(), (Integer) Integer.parseInt(text));
+					} else {
+						sudokuData.put(cell.getId(), null);
+					}
+				}
+			}
+			
 			sudokuData = clips.solve(sudokuData);
 		}
-		
-		refreshCells();
 	}
 	
 	private void refreshCells() {
-		assert(sudokuData.size() == 36);
+		System.out.println("[DEBUG] sudokuData.size(): " + sudokuData.size());
+		//assert(sudokuData.size() == 36);
 		
 		for(int i = 0; i < sudokuData.size(); i++) {
-			// TODO: more efficient method to get the reference needed
+			String id = getId(i);
+			Integer val = sudokuData.get(id);
+			SudokuCell cell = cells.get(i);
 			
-			Integer val = sudokuData.get(getId(i));
-			JTextField cell = cellList.get(i);
 			if(val != null) {
 				cell.setText(val.toString());
+			} else {
+				cell.setText(cell.getId());
 			}
 		}
 	}

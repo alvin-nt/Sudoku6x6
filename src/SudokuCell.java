@@ -48,7 +48,7 @@ public class SudokuCell extends JTextField {
 		assert(!Utils.isNullOrEmpty(id));
 		
 		this.id = id.toUpperCase();
-		((AbstractDocument)this.getDocument()).setDocumentFilter(new SudokuCellDocumentFilter(this.id));
+		//((AbstractDocument)this.getDocument()).setDocumentFilter(new SudokuCellDocumentFilter(this.id));
 		this.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
